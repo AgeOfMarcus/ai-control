@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from langchain.agents import initialize_agent
 from langchain.chat_models import ChatOpenAI
 from langchain.chains.conversation.memory import ConversationBufferMemory
@@ -15,7 +17,7 @@ class Chatbot(object):
     def __init__(self):
         self.llm = ChatOpenAI(temperature=0, model_name='gpt-4')
         self.tools = ALL_TOOLS
-        self.memory = ConversationBufferMemory(memory_key='chat_history', output_key='output', llm=self.llm, return_messages=True)
+        self.memory = ConversationBufferMemory(memory_key='chat_history', output_key='output', return_messages=True)
         self.agent = initialize_agent(
             self.tools,
             self.llm,
@@ -45,7 +47,7 @@ class Chatbot(object):
         self.last_tool['result'] = output
 
     def ask(self, message: str) -> str:
-        return self.agent.call(message)
+        return self.agent.run(message)
 
 if __name__ == '__main__':
     bot = Chatbot()

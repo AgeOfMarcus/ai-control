@@ -15,11 +15,11 @@ sh = lambda cmd: check_output(cmd.split(" ")).decode()
 app = FastAPI()
 
 @app.get("/")
-def app_get():
+async def app_get():
     return 'use /run for running cmds'
 
 @app.post("/run")
-def app_post(request: Request):
+async def app_post(request: Request):
     data = request.json()
     cmd = data['cmd']
     try:
