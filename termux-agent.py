@@ -1,26 +1,22 @@
 from subprocess import check_output, CalledProcessError
 try:
-    from fastapi import FastAPI, Request
+    from flask import Flask, request
 except ImportError:
-    print('Please install fastapi using pip install fastapi')
+    print('Please install flask using pip install flask')
     exit(1)
-try:
-    import uvicorn
-except ImportError:
-    print('Please install uvicorn using pip install uvicorn')
-    exit(1)
+
 
 sh = lambda cmd: check_output(cmd.split(" ")).decode()
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.get("/")
+@app.route("/")
 async def app_get():
     return 'use /run for running cmds'
 
-@app.post("/run")
-async def app_post(request: Request):
-    data = await request.json()
+@app.route("/run", methods=['POST'])
+def app_post():
+    data = request.json()
     cmd = data['cmd']
     try:
         return sh(cmd)
