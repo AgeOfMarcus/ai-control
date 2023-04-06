@@ -20,7 +20,7 @@ async def app_get():
 
 @app.post("/run")
 async def app_post(request: Request):
-    data = request.json()
+    data = await request.json()
     cmd = data['cmd']
     try:
         return sh(cmd)

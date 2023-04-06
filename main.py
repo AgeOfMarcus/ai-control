@@ -27,7 +27,8 @@ class Chatbot(object):
                 'prefix': ASSISTANT_PREFIX,
                 'format_instructions': ASSISTANT_FORMAT_INSTRUCTIONS,
                 'suffix': ASSISTANT_SUFFIX
-            }
+            },
+            verbose=True
         )
         self.last_tool = {
             'name': '',

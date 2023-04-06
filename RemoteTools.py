@@ -19,12 +19,13 @@ class BatteryStatusTool(BaseRemoteTool, BaseTool):
         'Get the current battery status of the device.'
         'Useful for determining if the device is charging or not.'
         'Useful for getting the battery level.'
+        'Does not accept any arguments.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-battery-status')
     
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class BrightnessTool(BaseRemoteTool, BaseTool):
@@ -62,12 +63,13 @@ class ClipboardGetTool(BaseRemoteTool, BaseTool):
     description = (
         'Get the current clipboard contents.'
         'Useful for getting the current clipboard contents.'
+        'Does not accept any arguments.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-clipboard-get')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class ClipboardSetTool(BaseRemoteTool, BaseTool):
@@ -89,12 +91,13 @@ class FingerprintTool(BaseRemoteTool, BaseTool):
     description = (
         'Asks the user to scan their fingerprint.'
         'Useful for getting authentication from the device owner.'
+        'Does not accept any arguments.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-fingerprint')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class LocationTool(BaseRemoteTool, BaseTool):
@@ -102,12 +105,13 @@ class LocationTool(BaseRemoteTool, BaseTool):
     description = (
         'Get the current location of the device.'
         'Useful for getting the current location of the device.'
+        'Does not accept any arguments.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-location')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class MediaPlayTool(BaseRemoteTool, BaseTool):
@@ -131,10 +135,10 @@ class MediaPauseTool(BaseRemoteTool, BaseTool):
         'Useful for pausing the currently playing media.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-media-player pause')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class RecordMicTool(BaseRemoteTool, BaseTool):
@@ -173,13 +177,14 @@ class ListNotificationsTool(BaseRemoteTool, BaseTool):
     description = (
         'List the current notifications on the device.'
         'Useful for listing the current notifications on the device.'
+        'Does not accept any arguments.'
         'Returns a list of dicts.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-notification-list')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class URLOpenerTool(BaseRemoteTool, BaseTool):
@@ -234,10 +239,10 @@ class GetVolumeTool(BaseRemoteTool, BaseTool):
         'Returns a dict.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-volume')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class SetVolumeTool(BaseRemoteTool, BaseTool):
@@ -261,13 +266,14 @@ class WiFiInfoTool(BaseRemoteTool, BaseTool):
     description = (
         'Get information about the WiFi connection.'
         'Useful for getting information about the WiFi connection.'
+        'Does not accept any arguments.'
         'Returns a dict.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-wifi-connectioninfo')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class WiFiScanTool(BaseRemoteTool, BaseTool):
@@ -275,13 +281,14 @@ class WiFiScanTool(BaseRemoteTool, BaseTool):
     description = (
         'Scan for WiFi networks.'
         'Useful for scanning for WiFi networks.'
+        'Does not accept any arguments.'
         'Returns a list of dicts.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-wifi-scaninfo')
 
-    async def _arun(self):
+    async def _arun(self, *args):
         return self._run()
 
 class VibratorTool(BaseRemoteTool, BaseTool):
