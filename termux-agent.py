@@ -16,8 +16,7 @@ async def app_get():
 
 @app.route("/run", methods=['POST'])
 def app_post():
-    data = request.json()
-    cmd = data['cmd']
+    cmd = request.json['cmd']
     try:
         return sh(cmd)
     except CalledProcessError as e:
