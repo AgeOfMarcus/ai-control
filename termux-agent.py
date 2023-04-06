@@ -1,4 +1,4 @@
-from subprocess import check_output, CalledProcessError
+from subprocess import Popen, PIPE, CalledProcessError
 try:
     from flask import Flask, request
 except ImportError:
@@ -6,7 +6,7 @@ except ImportError:
     exit(1)
 
 
-sh = lambda cmd: check_output(cmd.split(" ")).decode()
+sh = lambda cmd: Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE).communicate()[0].decode()
 
 app = Flask(__name__)
 
