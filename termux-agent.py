@@ -18,9 +18,9 @@ async def app_get():
 def app_post():
     cmd = request.json['cmd']
     try:
-        return sh(cmd)
+        return {'output': sh(cmd)}
     except CalledProcessError as e:
-        return e.output.decode()
+        return {'error': e.output.decode()}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

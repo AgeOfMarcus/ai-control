@@ -2,9 +2,10 @@ from langchain.tools import BaseTool
 from uuid import uuid4
 from pydantic import BaseModel, Field, Extra
 import requests
+import os
 
 class BaseRemoteTool(BaseTool):
-    url: str = Field(default='http://10.0.0.55:8080')
+    url: str = Field(default_factory=lambda: os.getenv('TERMUX_AGENT_URL', 'http://localhost:8080'))
 
     def _send_cmd(self, cmd: str):
         return requests.post(f'{self.url}/run', json={'cmd': cmd}).json()
@@ -47,7 +48,7 @@ class PhotoTool(BaseRemoteTool, BaseTool):
     description = (
         'Take a photo with the device camera.'
         'Useful for taking a photo with the device camera.'
-        'Accepts an optional integer camera id. Default is 0.'
+        'Accepts a single optional integer camera id. Default is 0.'
     )
 
     def _run(self, camera_id: int = 0):
@@ -77,7 +78,7 @@ class ClipboardSetTool(BaseRemoteTool, BaseTool):
     description = (
         'Set the current clipboard contents.'
         'Useful for setting the current clipboard contents.'
-        'Accepts a string.'
+        'Accepts a single string.'
     )
 
     def _run(self, text: str):
@@ -119,7 +120,7 @@ class MediaPlayTool(BaseRemoteTool, BaseTool):
     description = (
         'Play a media file.'
         'Useful for playing a media file.'
-        'Accepts a string file path.'
+        'Accepts a single string file path.'
     )
 
     def _run(self, path: str):
@@ -146,7 +147,7 @@ class RecordMicTool(BaseRemoteTool, BaseTool):
     description = (
         'Record audio from the device microphone.'
         'Useful for recording audio from the device microphone.'
-        'Accepts an integer duration in seconds.'
+        'Accepts a single integer duration in seconds.'
         'Returns filename.'
     )
 
@@ -163,7 +164,7 @@ class NotificationTool(BaseRemoteTool, BaseTool):
     description = (
         'Send a notification to the device.'
         'Useful for sending a notification to the device.'
-        'Accepts a string title and a string message.'
+        'Accepts two arguments, a string "title" and a string "message".'
     )
 
     def _run(self, title: str, message: str):
@@ -192,7 +193,7 @@ class URLOpenerTool(BaseRemoteTool, BaseTool):
     description = (
         'Open a URL in the default browser.'
         'Useful for opening a URL in the default browser.'
-        'Accepts a string URL.'
+        'Accepts a single argument type string, "URL".'
     )
 
     def _run(self, url: str):
@@ -206,7 +207,7 @@ class TorchTool(BaseRemoteTool, BaseTool):
     description = (
         'Turn the device torch on or off.'
         'Useful for turning the device torch on or off.'
-        'Accepts a string on or off.'
+        'Accepts a single argument type string, "on" or "off".'
     )
 
     def _run(self, state: str):
@@ -222,7 +223,7 @@ class SpeakTool(BaseRemoteTool, BaseTool):
     description = (
         'Speak a string with TTS.'
         'Useful for speaking a string.'
-        'Accepts a string.'
+        'Accepts a single argument type string.'
     )
 
     def _run(self, text: str):
@@ -250,7 +251,7 @@ class SetVolumeTool(BaseRemoteTool, BaseTool):
     description = (
         'Set the current volume.'
         'Useful for setting the current volume.'
-        'Accepts a string type and an integer value.'
+        'Accepts two arguments, a string for volume type (music, alarm, notification, ring), and an integer value.'
     )
 
     def _run(self, type: str, value: int):
@@ -296,7 +297,7 @@ class VibratorTool(BaseRemoteTool, BaseTool):
     description = (
         'Vibrate the device.'
         'Useful for vibrating the device.'
-        'Accepts an integer duration in milliseconds.'
+        'Accepts a single argument type integer, duration in milliseconds.'
     )
 
     def _run(self, duration: int):

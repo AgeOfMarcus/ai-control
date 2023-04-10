@@ -5,7 +5,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain.agents import AgentType
 # RemoteTools.py
-from RemoteTools import ALL_TOOLS
+from RemoteTools import REMOTE_TOOLS
+# UtilTools.py
+from UtilTools import UTIL_TOOLS
 # prompt.py
 from prompt import (
     ASSISTANT_PREFIX,
@@ -16,7 +18,7 @@ from prompt import (
 class Chatbot(object):
     def __init__(self):
         self.llm = ChatOpenAI(temperature=0, model_name='gpt-4')
-        self.tools = ALL_TOOLS
+        self.tools = UTIL_TOOLS + REMOTE_TOOLS
         self.memory = ConversationBufferMemory(memory_key='chat_history', output_key='output', return_messages=True)
         self.agent = initialize_agent(
             self.tools,
