@@ -306,7 +306,7 @@ class VibratorTool(BaseRemoteTool, BaseTool):
     async def _arun(self, duration: int):
         return self._run(duration)
 
-ALL_TOOLS = [
+REMOTE_TOOLS = [
     BatteryStatusTool(),
     BrightnessTool(),
     PhotoTool(),
@@ -326,5 +326,5 @@ ALL_TOOLS = [
     WiFiInfoTool(),
     WiFiScanTool(),
     VibratorTool(),
-    MediaPlayTool()
+    MediaPlayTool(),
 ]
