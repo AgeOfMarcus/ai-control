@@ -1,5 +1,5 @@
-# ai-control
-Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely
+# ai-control v1
+Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely. 
 
 # features
 Can do anything exposed in the Termux API. Also includes a few utility tools in `UtilTools.py` (so far just a `sleep` tool).
@@ -24,6 +24,15 @@ Can do anything exposed in the Termux API. Also includes a few utility tools in 
 * WiFiScanTool
 * VibratorTool
 * MediaPlayTool()
+
+# Limitations
+
+* not good at performing multiple actions in sequence, that will be fixed in v2
+
+# Future ideas
+
+* executing shell commands
+* scheduling events for the future
 
 # setup/installation
 Make a copy of `.env.example` named `.env` and set the following keys:
