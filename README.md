@@ -4,7 +4,7 @@ Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely.
 ## [Video Demo (*YouTube*)](https://youtu.be/0evGdb2RLDY)
 
 # features
-Can do anything exposed in the Termux API. Also includes a few utility tools in `UtilTools.py` (so far just a `sleep` tool).
+Can do anything exposed in the Termux API. Also includes a few utility tools in `UtilTools.py` (so far just a `sleep` tool). **Not all of these have been tested, so please open an issue if you find something not working.**
 
 * BatteryStatusTool
 * BrightnessTool
@@ -25,7 +25,7 @@ Can do anything exposed in the Termux API. Also includes a few utility tools in 
 * WiFiInfoTool
 * WiFiScanTool
 * VibratorTool
-* MediaPlayTool()
+* MediaPlayTool
 
 # Limitations
 
@@ -33,8 +33,12 @@ Can do anything exposed in the Termux API. Also includes a few utility tools in 
 
 # Future ideas
 
+Ngl I'm writing this for myself. Sorry if I get too verbose with it.
+
 * executing shell commands
 * scheduling events for the future
+* change `main.py` to `chatbot.py`, expose an interface. then make a new `main.py` with a CLI to run either the agent, chat, or both.
+* add an option, for when running chat from a Termux environment (or when running both - as it must be a Termux environment), to **use Termux speech to text and vice versa** instead of typing to the bot
 
 # setup/installation
 Make a copy of `.env.example` named `.env` and set the following keys:
