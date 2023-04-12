@@ -1,7 +1,7 @@
 # ai-control v1
 Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely. 
 
-## [Video Demo (*YouTube*)](https://youtu.be/0evGdb2RLDY)
+## [Video Demo (*YouTube*) - somewhat outdated](https://youtu.be/0evGdb2RLDY)
 
 # features
 Can do anything exposed in the Termux API. Also includes a few utility tools in `UtilTools.py` (so far just a `sleep` tool). **Not all of these have been tested, so please open an issue if you find something not working.**
