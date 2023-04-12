@@ -180,7 +180,7 @@ class NotificationTool(BaseRemoteTool, BaseTool):
         return self._run(arguments)
 
 class ListNotificationsTool(BaseRemoteTool, BaseTool):
-    name = 'List Notifications'
+    name = 'ListNotifications'
     description = (
         'List the current notifications on the device.'
         'Useful for listing the current notifications on the device.'
@@ -188,10 +188,10 @@ class ListNotificationsTool(BaseRemoteTool, BaseTool):
         'Returns a list of dicts.'
     )
 
-    def _run(self, *args):
+    def _run(self):
         return self._send_cmd('termux-notification-list')
 
-    async def _arun(self, *args):
+    async def _arun(self):
         return self._run()
 
 class URLOpenerTool(BaseRemoteTool, BaseTool):

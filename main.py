@@ -73,5 +73,5 @@ elif args.chat:
     chat(args)
 elif args.both:
     start_new_thread(agent, (args,))
-    time.sleep(3)
+    time.sleep(2)
     chat(args)
