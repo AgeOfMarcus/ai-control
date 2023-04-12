@@ -28,7 +28,7 @@ class BatteryStatusTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-battery-status')
     
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class BrightnessTool(BaseRemoteTool, BaseTool):
     name = 'Brightness'
@@ -72,7 +72,7 @@ class ClipboardGetTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-clipboard-get')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class ClipboardSetTool(BaseRemoteTool, BaseTool):
     name = 'Clipboard Set'
@@ -100,7 +100,7 @@ class FingerprintTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-fingerprint')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class LocationTool(BaseRemoteTool, BaseTool):
     name = 'Location'
@@ -114,7 +114,7 @@ class LocationTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-location')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class MediaPlayTool(BaseRemoteTool, BaseTool):
     name = 'Play Media'
@@ -141,7 +141,7 @@ class MediaPauseTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-media-player pause')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class RecordMicTool(BaseRemoteTool, BaseTool):
     name = 'Record Microphone'
@@ -250,7 +250,7 @@ class GetVolumeTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-volume')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class SetVolumeTool(BaseRemoteTool, BaseTool):
     name = 'Set Volume'
@@ -285,7 +285,7 @@ class WiFiInfoTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-wifi-connectioninfo')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class WiFiScanTool(BaseRemoteTool, BaseTool):
     name = 'WiFi Scan'
@@ -300,7 +300,7 @@ class WiFiScanTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-wifi-scaninfo')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class VibratorTool(BaseRemoteTool, BaseTool):
     name = 'Vibrator'
