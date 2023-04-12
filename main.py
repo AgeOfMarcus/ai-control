@@ -4,8 +4,8 @@ import time
 import os
 
 def chat(args):
-    from chatbot import Chatbot
     os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
+    from chatbot import Chatbot
     bot = Chatbot(verbose=args.verbose)
     while True:
         message = input('You: ')
