@@ -1,4 +1,4 @@
-# ai-control v1
+# ai-control v1.2
 Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely. 
 
 ## [Video Demo (*YouTube*) - somewhat outdated](https://youtu.be/0evGdb2RLDY)
