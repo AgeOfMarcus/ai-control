@@ -188,11 +188,11 @@ class ListNotificationsTool(BaseRemoteTool, BaseTool):
         'Returns a list of dicts.'
     )
 
-    def _run(self):
+    def _run(self, *args):
         return self._send_cmd('termux-notification-list')
 
-    async def _arun(self):
-        return self._run()
+    async def _arun(self, *args):
+        return self._run(*args)
 
 class URLOpenerTool(BaseRemoteTool, BaseTool):
     name = 'Open URL'
