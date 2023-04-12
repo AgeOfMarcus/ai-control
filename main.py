@@ -1,10 +1,12 @@
 from argparse import ArgumentParser
 from _thread import start_new_thread
 import time
+import os
 
 def chat(args):
     from chatbot import Chatbot
-    bot = Chatbot(host=args.host, port=args.port, verbose=args.verbose)
+    os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
+    bot = Chatbot(verbose=args.verbose)
     while True:
         message = input('You: ')
         print('Bot: ', bot.ask(message))
