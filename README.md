@@ -37,7 +37,6 @@ Ngl I'm writing this for myself. Sorry if I get too verbose with it.
 
 * executing shell commands
 * scheduling events for the future
-* change `main.py` to `chatbot.py`, expose an interface. then make a new `main.py` with a CLI to run either the agent, chat, or both.
 * add an option, for when running chat from a Termux environment (or when running both - as it must be a Termux environment), to **use Termux speech to text and vice versa** instead of typing to the bot
 
 # setup/installation
@@ -51,6 +50,9 @@ Make a copy of `.env.example` named `.env` and set the following keys:
 For the agent device, make sure you have the Termux-API app installed along with the interface. To install the interface, run `pkg install termux-*` from within a termux session.
 
 # usage
-1. Run `termux-agent.py` on your android device
-2. Run `main.py` on the device you want to control it from
-3. You will enter a chat session (when you see the prompt: `> `), type and send messages with enter. By default, the chatbot shows verbose output so that you can view the commands it is running.
+
+Verbose mode will be set on as default until v2.
+
+1. Run `main.py` for the CLI interface
+
+![Usage](/media/cli_usage.png)

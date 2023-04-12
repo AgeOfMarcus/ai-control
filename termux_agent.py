@@ -22,5 +22,8 @@ def app_post():
     except CalledProcessError as e:
         return {'error': e.output.decode()}
 
+def main(host='127.0.0.1', port=8080):
+    app.run(host=host, port=port)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    main()

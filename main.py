@@ -1,63 +1,75 @@
-from dotenv import load_dotenv
-load_dotenv()
-from langchain.agents import initialize_agent
-from langchain.chat_models import ChatOpenAI
-from langchain.chains.conversation.memory import ConversationBufferMemory
-from langchain.agents import AgentType
-# RemoteTools.py
-from RemoteTools import REMOTE_TOOLS
-# UtilTools.py
-from UtilTools import UTIL_TOOLS
-# prompt.py
-from prompt import (
-    ASSISTANT_PREFIX,
-    ASSISTANT_FORMAT_INSTRUCTIONS,
-    ASSISTANT_SUFFIX
+from argparse import ArgumentParser
+from _thread import start_new_thread
+import time
+
+def chat(args):
+    from chatbot import Chatbot
+    bot = Chatbot(host=args.host, port=args.port, verbose=args.verbose)
+    while True:
+        message = input('You: ')
+        print('Bot: ', bot.ask(message))
+def agent(args):
+    from termux_agent import main
+    main(host=args.host, port=args.port)
+
+p = ArgumentParser()
+p.add_argument(
+    '-c', '--chat', 
+    action='store_true', 
+    help=(
+        "Start the chatbot interface."
+    )
+)
+p.add_argument(
+    '-a', '--agent',
+    action='store_true',
+    help=(
+        "Start the agent server."
+        "Must be run from inside Termux."
+    )
+)
+p.add_argument(
+    "-b", "--both",
+    action='store_true',
+    help=(
+        "Starts the agent server, and then starts the chatbot interface."
+        "Must be run from inside Termux."
+    )
+)
+p.add_argument(
+    "--host",
+    default='127.0.0.1',
+    type=str,
+    help=(
+        "For running the Termux agent server."
+        "Defaults to localhost."
+    )
+)
+p.add_argument(
+    "--port",
+    default=8080,
+    type=int,
+    help=(
+        "For running the Termux agent server."
+        "Defaults to 8080."
+    )
+)
+p.add_argument(
+    '-v', '--verbose',
+    action='store_true',
+    default=True,
+    help=(
+        "Prints verbose output."
+        "Defaults to True (until v2 release)."
+    )
 )
 
-class Chatbot(object):
-    def __init__(self):
-        self.llm = ChatOpenAI(temperature=0, model_name='gpt-4')
-        self.tools = UTIL_TOOLS + REMOTE_TOOLS
-        self.memory = ConversationBufferMemory(memory_key='chat_history', output_key='output', return_messages=True)
-        self.agent = initialize_agent(
-            self.tools,
-            self.llm,
-            agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
-            memory=self.memory,
-            agent_kwargs={
-                'prefix': ASSISTANT_PREFIX,
-                'format_instructions': ASSISTANT_FORMAT_INSTRUCTIONS,
-                'suffix': ASSISTANT_SUFFIX
-            },
-            verbose=True
-        )
-        self.last_tool = {
-            'name': '',
-            'argument': '',
-            'result': ''
-        }
-        self.agent.callback_manager.on_tool_start = self._on_tool_start
-        self.agent.callback_manager.on_tool_end = self._on_tool_end
-    
-    def _on_tool_start(self, tool: dict, argument: str, **kwargs):
-        self.last_tool = {
-            'name': tool['name'],
-            'argument': argument,
-            'result': ''
-        }
-    def _on_tool_end(self, output: str, **kwargs):
-        self.last_tool['result'] = output
-
-    def ask(self, message: str) -> str:
-        return self.agent.run(message)
-
-if __name__ == '__main__':
-    bot = Chatbot()
-    while True:
-        try:
-            message = input('> ')
-            response = bot.ask(message)
-            print(response)
-        except KeyboardInterrupt:
-            break
+args = p.parse_args()
+if args.agent:
+    agent(args)
+elif args.chat:
+    chat(args)
+elif args.both:
+    start_new_thread(agent, (args,))
+    time.sleep(3)
+    chat(args)
