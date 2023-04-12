@@ -2,6 +2,7 @@ from langchain.tools import BaseTool
 from uuid import uuid4
 from pydantic import BaseModel, Field, Extra
 import requests
+import json
 import os
 
 class BaseRemoteTool(BaseTool):
@@ -164,14 +165,19 @@ class NotificationTool(BaseRemoteTool, BaseTool):
     description = (
         'Send a notification to the device.'
         'Useful for sending a notification to the device.'
-        'Accepts two arguments, a string "title" and a string "message".'
+        'Accepts one argument, a dictionary in JSON format containing the keys "title" and "message".'
+        'If message is not provided, it will be set to the same as title.'
     )
 
-    def _run(self, title: str, message: str):
-        return self._send_cmd(f'termux-notification -t {title} -c {message}')
+    def _run(self, arguments):
+        try:
+            notif = json.loads(arguments)
+        except json.JSONDecoderError:
+            return {'error': 'Invalid JSON'}
+        return self._send_cmd(f'termux-notification -t {notif["title"]} -c {notif.get("message", notif["title"])}')
 
-    async def _arun(self, title: str, message: str):
-        return self._run(title, message)
+    async def _arun(self, arguments):
+        return self._run(arguments)
 
 class ListNotificationsTool(BaseRemoteTool, BaseTool):
     name = 'List Notifications'
@@ -251,16 +257,20 @@ class SetVolumeTool(BaseRemoteTool, BaseTool):
     description = (
         'Set the current volume.'
         'Useful for setting the current volume.'
-        'Accepts two arguments, a string for volume type (music, alarm, notification, ring), and an integer value.'
+        'Accepts one argument, a dictionary in JSON format containing the keys "volume_type" (either: "music", "alarm", "notification", or "ring"), and key "value" containing an integer representing volume percentage (0-100).'
     )
 
-    def _run(self, type: str, value: int):
-        if not type in ('music', 'alarm', 'notification', 'ring'):
+    def _run(self, arguments):
+        try:
+            args = json.loads(arguments)
+        except json.JSONDecoderError:
+            return {'error': 'Invalid JSON'}
+        if not args['volume_type'] in ('music', 'alarm', 'notification', 'ring'):
             return 'Error: type must be "music", "alarm", "notification", or "ring"'
-        return self._send_cmd(f'termux-volume {type} {value}')
+        return self._send_cmd(f'termux-volume {args["volume_type"]} {args["value"]}')
 
-    async def _arun(self, type: str, value: int):
-        return self._run(type, value)
+    async def _arun(self, arguments):
+        return self._run(arguments)
 
 class WiFiInfoTool(BaseRemoteTool, BaseTool):
     name = 'WiFi Info'
