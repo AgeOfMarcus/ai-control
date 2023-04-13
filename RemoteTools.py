@@ -374,7 +374,7 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
     description = (
         "Sends an SMS message."
         "Useful for sending an SMS message."
-        "Accepts a single argument, a dictionary in JSON format containing the keys 'number' (a string representing the phone number to send the message to - seperated by commas for multiple numbers - use the ListContactsTool to find numbers by name), and 'message' (a string representing the message to send)."
+        "Accepts a single argument, a dictionary in JSON format containing the keys 'number' (a string representing the phone number to send the message to without spaces or symbols barring country code - seperated by commas for multiple numbers - use the SearchContactsTool to find numbers by name), and 'message' (a string representing the message to send)."
         "Does not return any response."
     )
 
