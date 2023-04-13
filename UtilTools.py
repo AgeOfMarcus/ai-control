@@ -12,6 +12,7 @@ class GoogleSearchTool(BaseTool):
     description = (
         'Useful for searching the internet.'
         'Useful for getting current information to provide up-to-date answers.'
+        'Do not use this tool to look for phone numbers unless google is specifically mentioned.'
         'Accepts a single argument, which is a string representing the search query.'
         'Returns a list of dictionaries, containing the keys "title", "url", and "description".'
     )
@@ -30,7 +31,7 @@ class PlanTool(BaseTool):
         "Use this when you need to use a tool with an argument that depends on the output of another (or more) tool(s)."
         "Accepts a single argument, which is a string representing the goal in natural language (be descriptive)."
         "Returns a list of dictionaries, each containing a 'name' and 'argument' key."
-        "After using this tool to determine a plan, you must use the tools in the order they are listed in the plan (filling in placeholders as needed)."
+        "After using this tool to determine a plan, you will always use the tools in the order they are listed in the plan (filling in placeholders as needed). You do not need to ask before continuing."
     )
     llm: BaseLLM = Field(default_factory=lambda: OpenAI(temperature=0))
 
