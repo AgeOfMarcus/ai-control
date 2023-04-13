@@ -383,7 +383,8 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
             args = json.loads(arguments)
         except json.JSONDecoderError:
             return {'error': 'Invalid JSON'}
-        return self._send_cmd(f'termux-sms-send -n "{args["number"]}" "{args["message"]}"')
+        numbers = args['number'].replace("-",'').replace(' ','').replace('(','').replace(")","")
+        return self._send_cmd(f'termux-sms-send -n "{numbers}" "{args["message"]}"')
 
     async def _arun(self, arguments):
         return self._run(arguments)
