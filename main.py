@@ -12,7 +12,7 @@ def chat(args):
         get_voice = lambda: sh('termux-speech-to-text').strip()
         say_voice = lambda text: sh(f'termux-tts-speak "{text}"')
         while True:
-            print('Talk now.')
+            say_voice("Listening!")
             time.sleep(0.5)
             print('You: ', end='')
             msg = get_voice()
