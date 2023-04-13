@@ -7,9 +7,25 @@ def chat(args):
     os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
     from chatbot import Chatbot
     bot = Chatbot(verbose=args.verbose)
-    while True:
-        message = input('You: ')
-        print('Bot: ', bot.ask(message))
+    if args.voice:
+        from termux_agent import sh
+        get_voice = lambda: sh('termux-speech-to-text').strip()
+        say_voice = lambda text: sh(f'termux-tts-speak "{text}"')
+        while True:
+            print('You: ', end='')
+            msg = get_voice()
+            while not msg:
+                print('... ', end='')
+                msg = get_voice()
+            print(msg)
+
+            resp = bot.ask(msg)
+            print('Bot: ', resp, '\n\n')
+            say_voice(resp)
+    else:
+        while True:
+            message = input('You: ')
+            print('Bot: ', bot.ask(message))
 def agent(args):
     from termux_agent import main
     main(host=args.host, port=args.port)
@@ -20,6 +36,13 @@ p.add_argument(
     action='store_true', 
     help=(
         "Start the chatbot interface."
+    )
+)
+p.add_argument(
+    '--voice',
+    action='store_true',
+    help=(
+        "Start the chatbot interface with voice input and output."
     )
 )
 p.add_argument(

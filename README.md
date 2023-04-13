@@ -3,7 +3,9 @@ Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely.
 
 ### What's new?
 
-The assistant is now able to effectively execute multiple actions in a row. It does this by calling another LLM, which comes up with a plan.
+The assistant is now able to effectively execute multiple actions in a row. It does this by calling another LLM, which comes up with a plan. It also has access to a bunch more Termux API tools.
+
+#### Just added: voice chat mode!
 
 ## [Video Demo (*YouTube*) - somewhat outdated](https://youtu.be/0evGdb2RLDY)
 
