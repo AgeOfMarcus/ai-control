@@ -1,4 +1,4 @@
 langchain
 openai
 requests
-pydantic
+googlesearch.py

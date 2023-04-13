@@ -1,3 +1,3 @@
 cd ~/ai-control
-python main.py --both
+python main.py --both --once
 exit

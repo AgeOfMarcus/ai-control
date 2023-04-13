@@ -1,12 +1,23 @@
 from argparse import ArgumentParser
 from _thread import start_new_thread
-import time
-import os
+import time, json, os
+
+def get_tools_from_config(cfg: dict):
+    from langchain.agents import load_tools
+    from PluginLoader import PluginLoader # PluginLoader.py
+    tools = []
+    for url in cfg['tools']['openai']:
+        tools.append(PluginLoader(url).get_tool())
+    if (l_tools := cfg['tools']['langchain']):
+        tools += load_tools(l_tools)
+    return tools
 
 def chat(args):
     os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
     from chatbot import Chatbot
-    bot = Chatbot(verbose=args.verbose)
+    config = json.load(open(args.config, 'r'))
+    tools = get_tools_from_config(config)
+    bot = Chatbot(verbose=args.verbose, tools=tools)
     if args.voice:
         from termux_agent import sh
         get_voice = lambda: sh('termux-speech-to-text').strip()
@@ -25,10 +36,14 @@ def chat(args):
             resp = bot.ask(msg)
             say_voice(resp)
             print('Bot: ', resp, '\n\n')
+            if args.once:
+                break
     else:
         while True:
             message = input('You: ')
             print('Bot: ', bot.ask(message))
+            if args.once:
+                break
 def agent(args):
     from termux_agent import main
     main(host=args.host, port=args.port)
@@ -89,6 +104,22 @@ p.add_argument(
     help=(
         "Prints verbose output."
         "Defaults to True (until v2 release)."
+    )
+)
+p.add_argument(
+    '--once',
+    action='store_true',
+    help=(
+        "For chat mode, exit after one interaction."
+    )
+)
+p.add_argument(
+    '--config',
+    default='config.json',
+    type=str,
+    help=(
+        "Path to the config file containing additional tools to load."
+        "Defaults to config.json."
     )
 )
 
