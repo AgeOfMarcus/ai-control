@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
-from langchain.agents import initialize_agent
+from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
 from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain.agents import AgentType
@@ -18,7 +18,7 @@ from prompt import (
 class Chatbot(object):
     def __init__(self, verbose=True):
         self.llm = ChatOpenAI(temperature=0, model_name='gpt-4')
-        self.tools = UTIL_TOOLS + REMOTE_TOOLS
+        self.tools = UTIL_TOOLS + REMOTE_TOOLS + load_tools(['requests_all'])
         self.memory = ConversationBufferMemory(memory_key='chat_history', output_key='output', return_messages=True)
         self.agent = initialize_agent(
             self.tools,
