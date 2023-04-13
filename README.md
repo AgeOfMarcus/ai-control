@@ -73,4 +73,10 @@ Verbose mode will be set on as default so you can see what actions are performed
 
 1. Run `main.py` for the CLI interface
 
-![Usage](/media/cli_usage.png)
+![Usage (old)](/media/cli_usage.png)
+
+## termux shortcuts
+
+*Requires the Termux-Widgets app*
+
+* Copy the `.shortcuts` folder to your home directory (or move the scripts inside, if you already have a `.shortcuts` folder in your home dir)
