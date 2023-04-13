@@ -33,7 +33,8 @@ The assistant is now able to effectively execute multiple actions in a row. It d
 * WiFiScanTool
 * VibratorTool
 * MediaPlayTool
-* ListContactsTool
+* SearchContactsTool
+    * This lists all contacts, but filters by name to avoid a prompt too large for OpenAIs limits.
 * ListSMSTool
 * SendSMSTool
 * GetCellInfoTool

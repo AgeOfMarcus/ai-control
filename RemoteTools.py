@@ -330,17 +330,20 @@ class VibratorTool(BaseRemoteTool, BaseTool):
     async def _arun(self, duration: int):
         return self._run(duration)
 
-class ListContactsTool(BaseRemoteTool, BaseTool):
-    name = "ListContacts"
+class SearchContactsTool(BaseRemoteTool, BaseTool):
+    name = "SearchContacts"
     description = (
-        "List the contacts on the device."
-        "Useful for getting all contacts on the device."
-        "Does not accept any arguments."
+        "Search the contacts on the device."
+        "Useful for finding phone numbers for people."
+        "Accepts a single string as an argument, any name containing it will have their info returned."
         "Returns a list of dicts containing 'name' and 'number."
     )
 
-    def _run(self, *args):
-        return self._send_cmd('termux-contact-list')
+    def _run(self, search: str):
+        res = self._send_cmd('termux-contact-list')
+        contacts = json.loads(res['output'])
+        matches = [c for c in contacts if search in c['name']]
+        return matches
     async def _arun(self, *args):
         return self._run(*args)
 
@@ -469,7 +472,7 @@ REMOTE_TOOLS = [
     WiFiScanTool(),
     VibratorTool(),
     MediaPlayTool(),
-    ListContactsTool(),
+    SearchContactsTool(),
     ListSMSTool(),
     SendSMSTool(),
     GetCellInfoTool(),
