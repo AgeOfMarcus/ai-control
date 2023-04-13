@@ -7,25 +7,33 @@ import asyncio, time, json
 from RemoteTools import REMOTE_TOOLS
 
 class PlanTool(BaseTool):
-    name = "Planning Tool"
+    name = "PlanTool"
     description = (
         "Useful for determining a plan of steps to take to achieve a goal."
         "Use this when asked to preform a series of actions."
-        "Accepts a single argument, which is a string representing the goal."
+        "Use this when you need to use a tool with an argument that depends on the output of another (or more) tool(s)."
+        "Accepts a single argument, which is a string representing the goal in natural language (be descriptive)."
         "Returns a list of dictionaries, each containing a 'name' and 'argument' key."
+        "After using this tool to determine a plan, you must use the tools in the order they are listed in the plan (filling in placeholders as needed)."
     )
     llm: BaseLLM = Field(default_factory=lambda: OpenAI(temperature=0))
 
     def _run(self, goal):
-        resp = self.llm.run(f"""
+        # should i tell it about the PlanTool or is that asking for recursive API bills?
+        resp = self.llm.generate([f"""
         You are given a goal: {goal}.
         You must plan out a series of steps to achieve this goal.
         Here is a list of tools you have available to accomplish this goal:
-        {', '.join([(tool.name, tool.description) for tool in REMOTE_TOOLS])}
+        {', '.join([f'{tool.name}: {tool.description}' for tool in [*REMOTE_TOOLS, SleepTool()]])}
 
-        Return a list of dictionaries, each containing a 'name' and 'argument' key.
-        """)
-        return json.loads(resp)
+        Return a valid JSON object contaning the plan, a list of dictionaries, each containing a 'name' and 'argument' key.
+        """])
+        res = resp.generations[0][0].text
+        try:
+            return json.loads(res)
+        except json.JSONDecodeError:
+            # use a third LLM to fix JSON format? fuck
+            return res
 
     async def _arun(self, goal):
         return self._run(goal)
@@ -47,5 +55,6 @@ class SleepTool(BaseTool):
         return 'done'
 
 UTIL_TOOLS = [
+    PlanTool(),
     SleepTool(),
 ]

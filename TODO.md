@@ -1,5 +1,5 @@
 # build:
-* cli interface
+* tts<->stt mode
 
 # test:
-* PlanTool
+* all the fuckin remote tools lol

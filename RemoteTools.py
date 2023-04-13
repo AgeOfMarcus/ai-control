@@ -161,7 +161,7 @@ class RecordMicTool(BaseRemoteTool, BaseTool):
         return self._run(duration)
 
 class NotificationTool(BaseRemoteTool, BaseTool):
-    name = 'Notification'
+    name = 'CreateNotification'
     description = (
         'Send a notification to the device.'
         'Useful for sending a notification to the device.'
@@ -193,6 +193,20 @@ class ListNotificationsTool(BaseRemoteTool, BaseTool):
 
     async def _arun(self, *args):
         return self._run(*args)
+
+class RemoveNotificationTool(BaseRemoteTool, BaseTool):
+    name = 'RemoveNotification'
+    description = (
+        'Remove a notification from the device.'
+        'Useful for removing a notification from the device.'
+        'Accepts a single string id.'
+    )
+
+    def _run(self, id: str):
+        return self._send_cmd(f'termux-notification-remove {id}')
+
+    async def _arun(self, id: str):
+        return self._run(id)
 
 class URLOpenerTool(BaseRemoteTool, BaseTool):
     name = 'Open URL'
@@ -316,6 +330,123 @@ class VibratorTool(BaseRemoteTool, BaseTool):
     async def _arun(self, duration: int):
         return self._run(duration)
 
+class ListContactsTool(BaseRemoteTool, BaseTool):
+    name = "ListContacts"
+    description = (
+        "List the contacts on the device."
+        "Useful for getting all contacts on the device."
+        "Does not accept any arguments."
+        "Returns a list of dicts containing 'name' and 'number."
+    )
+
+    def _run(self, *args):
+        return self._send_cmd('termux-contact-list')
+    async def _arun(self, *args):
+        return self._run(*args)
+
+class ListSMSTool(BaseRemoteTool, BaseTool):
+    name = "ListSMS"
+    description = (
+        "Lists SMS messages on the device."
+        "Useful for reading SMS messages on the device."
+        "Accepts a single argument, a dictionary in JSON format containing the keys 'box' (either: 'inbox', 'sent', 'draft', 'outbox', 'failed', 'queued', or 'all'), and 'limit' (an integer representing the maximum number of messages to return)."
+        "Returns a list of dicts containing 'address', 'body', 'date', 'date_sent', 'read', 'status', 'type', 'thread_id', and 'person'."
+    )
+
+    def _run(self, arguments):
+        try:
+            args = json.loads(arguments)
+        except json.JSONDecoderError:
+            return {'error': 'Invalid JSON'}
+        if not args['box'] in ('inbox', 'sent', 'draft', 'outbox', 'failed', 'queued', 'all'):
+            return 'Error: box must be "inbox", "sent", "draft", "outbox", "failed", "queued", or "all"'
+        return self._send_cmd(f'termux-sms-list -t {args["box"]} -l {args["limit"]}')
+
+    async def _arun(self, arguments):
+        return self._run(arguments)
+
+class SendSMSTool(BaseRemoteTool, BaseTool):
+    name = "SendSMS"
+    description = (
+        "Sends an SMS message."
+        "Useful for sending an SMS message."
+        "Accepts a single argument, a dictionary in JSON format containing the keys 'number' (a string representing the phone number to send the message to - seperated by commas for multiple numbers), and 'message' (a string representing the message to send)."
+        "Does not return any response."
+    )
+
+    def _run(self, arguments):
+        try:
+            args = json.loads(arguments)
+        except json.JSONDecoderError:
+            return {'error': 'Invalid JSON'}
+        return self._send_cmd(f'termux-sms-send -n {args["number"]} "{args["message"]}"')
+
+    async def _arun(self, arguments):
+        return self._run(arguments)
+
+class GetCellInfoTool(BaseRemoteTool, BaseTool):
+    name = "GetCellInfo"
+    description = (
+        "Get information about the cellular connection."
+        "Useful for getting information about the cellular connection."
+        "Does not accept any arguments."
+        "Returns two dicts."
+    )
+
+    def _run(self, *args):
+        return self._send_cmd('termux-telephony-cellinfo && termux-telephony-deviceinfo')
+    
+    async def _arun(self, *args):
+        return self._run(*args)
+
+class StartCallTool(BaseRemoteTool, BaseTool):
+    name = 'StartCall'
+    description = (
+        'Start a phone call.'
+        'Useful for calling a phone number.'
+        'Accepts a single string argument, the phone number to call.'
+        'Does not return any response.'
+    )
+
+    def _run(self, number: str):
+        return self._send_cmd(f'termux-telephony-call {number}')
+    
+    async def _arun(self, number: str):
+        return self._run(number)
+
+class ListSensorsTool(BaseRemoteTool, BaseTool):
+    name = 'ListSensors'
+    description = (
+        'List the sensors on the device.'
+        'Useful for getting all sensors on the device.'
+        'Does not accept any arguments.'
+        'Returns a list of dicts containing "name" and "vendor".'
+    )
+
+    def _run(self, *args):
+        return self._send_cmd('termux-sensor -l')
+
+    async def _arun(self, *args):
+        return self._run(*args)
+
+class ReadSensorTool(BaseRemoteTool, BaseTool):
+    name = 'ReadSensor'
+    description = (
+        "Useful for reading the value(s) from a device sensor."
+        "Accepts a single arumgnet, a dictionary in JSON format containing the key 'sensor' (a string representing the sensor to read from - seperated by commas for multiple sensors), the key 'limit' containing an integer representing the number of times to read from the sensor."
+        "Returns a dict containing the sensor name as the key, and the value(s) as a list."
+    )
+
+    def _run(self, arguments):
+        try:
+            args = json.loads(arguments)
+        except json.JSONDecoderError:
+            return {'error': 'Invalid JSON'}
+        return self._send_cmd(f'termux-sensor -s {args["sensor"]} -n {args["limit"]}')
+    
+    async def _arun(self, arguments):
+        return self._run(arguments)
+
 REMOTE_TOOLS = [
     BatteryStatusTool(),
     BrightnessTool(),
@@ -328,6 +459,7 @@ REMOTE_TOOLS = [
     RecordMicTool(),
     NotificationTool(),
     ListNotificationsTool(),
+    RemoveNotificationTool(),
     URLOpenerTool(),
     TorchTool(),
     SpeakTool(),
@@ -337,4 +469,11 @@ REMOTE_TOOLS = [
     WiFiScanTool(),
     VibratorTool(),
     MediaPlayTool(),
+    ListContactsTool(),
+    ListSMSTool(),
+    SendSMSTool(),
+    GetCellInfoTool(),
+    StartCallTool(),
+    ListSensorsTool(),
+    ReadSensorTool(),
 ]

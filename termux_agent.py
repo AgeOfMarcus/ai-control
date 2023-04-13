@@ -2,7 +2,7 @@ from subprocess import Popen, PIPE, CalledProcessError
 try:
     from flask import Flask, request
 except ImportError:
-    print('Please install flask using pip install flask')
+    print('Please install flask using pip install flask[async]')
     exit(1)
 
 

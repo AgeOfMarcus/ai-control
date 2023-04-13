@@ -1,10 +1,16 @@
-# ai-control v1
+# ai-control v2
 Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely. 
+
+### What's new?
+
+The assistant is now able to effectively execute multiple actions in a row. It does this by calling another LLM, which comes up with a plan.
 
 ## [Video Demo (*YouTube*) - somewhat outdated](https://youtu.be/0evGdb2RLDY)
 
 # features
-Can do anything exposed in the Termux API. Also includes a few utility tools in `UtilTools.py` (so far just a `sleep` tool). **Not all of these have been tested, so please open an issue if you find something not working.**
+ **Not all of these have been tested, so please open an issue if you find something not working.**
+
+## Tools using Termux API:
 
 * BatteryStatusTool
 * BrightnessTool
@@ -17,6 +23,7 @@ Can do anything exposed in the Termux API. Also includes a few utility tools in 
 * RecordMicTool
 * NotificationTool
 * ListNotificationsTool
+* RemoveNotificationTool
 * URLOpenerTool
 * TorchTool
 * SpeakTool
@@ -26,10 +33,18 @@ Can do anything exposed in the Termux API. Also includes a few utility tools in 
 * WiFiScanTool
 * VibratorTool
 * MediaPlayTool
+* ListContactsTool
+* ListSMSTool
+* SendSMSTool
+* GetCellInfoTool
+* StartCallTool
+* ListSensorsTool
+* ReadSensorTool
 
-# Limitations
+## Utility Tools
 
-* not good at performing multiple actions in sequence, that will be fixed in v2
+* Sleep
+* PlanTool *(this is the second LLM that lets the assistant perforn complex series of commands)*
 
 # Future ideas
 
@@ -47,11 +62,11 @@ Make a copy of `.env.example` named `.env` and set the following keys:
     * If you're running the termux agent and the controller on the same device, you can skip this step as it defaults to `http://localhost:8080`
     * Otherwise, it's just `http://` + your phone's IP address + `:8080` for the port
 
-For the agent device, make sure you have the Termux-API app installed along with the interface. To install the interface, run `pkg install termux-*` from within a termux session.
+For the agent device, make sure you have the Termux-API app installed along with the interface. To install the interface, run `pkg install termux-*` from within a termux session. **Be sure to enable all permissions you want to use for Termux-API - for Android 13+ you might need to [allow restricted settings](https://support.google.com/android/answer/12623953?hl=en).**
 
 # usage
 
-Verbose mode will be set on as default until v2.
+Verbose mode will be set on as default so you can see what actions are performed.
 
 1. Run `main.py` for the CLI interface
 
