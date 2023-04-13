@@ -4,3 +4,6 @@
 
 # test:
 * all the fuckin remote tools lol
+
+# fix:
+* shutdown after --once
