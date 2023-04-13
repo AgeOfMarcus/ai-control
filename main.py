@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from _thread import start_new_thread
+import requests
 import time, json, os
 
 def get_tools_from_config(cfg: dict):
@@ -11,6 +12,9 @@ def get_tools_from_config(cfg: dict):
     if (l_tools := cfg['tools']['langchain']):
         tools += load_tools(l_tools)
     return tools
+
+def shutdown_server(agent_url: str):
+    requests.get(f'{agent_url}/shutdown')
 
 def chat(args):
     os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
@@ -132,4 +136,5 @@ elif args.both:
     start_new_thread(agent, (args,))
     time.sleep(1.3)
     chat(args)
+    shutdown_server(f'http://{args.host}:{args.port}')
     exit(0)

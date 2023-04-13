@@ -22,6 +22,11 @@ def app_post():
     except CalledProcessError as e:
         return {'error': e.output.decode()}
 
+@app.route('/shutdown')
+def shutdown_server():
+    print('Server shutting down...')
+    request.environ.get('werkzeug.server.shutdown')()
+
 def main(host='127.0.0.1', port=8080):
     app.run(host=host, port=port)
 
