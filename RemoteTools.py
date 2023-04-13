@@ -343,7 +343,7 @@ class SearchContactsTool(BaseRemoteTool, BaseTool):
     def _run(self, search: str):
         res = self._send_cmd('termux-contact-list')
         contacts = json.loads(res['output'])
-        matches = [c for c in contacts if search in c['name']]
+        matches = [c for c in contacts if search.lower() in c['name'].lower()]
         return matches
     async def _arun(self, *args):
         return self._run(*args)
