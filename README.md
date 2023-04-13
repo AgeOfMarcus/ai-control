@@ -82,7 +82,7 @@ For the agent device, make sure you have the Termux-API app installed along with
 
 # usage
 
-Verbose mode will be set on as default so you can see what actions are performed.
+Verbose mode will be set on as default so you can see what actions are performed. Also, for the Termux shortcut `assistant-voice.sh`, `--verbose-voice` is applied by default - causing the tools used to be spoken aloud.
 
 1. Run `main.py` for the CLI interface
 

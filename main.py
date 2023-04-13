@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 from _thread import start_new_thread
-import requests
-import time, json, os
+import requests, time, json, os, sys
 
 def get_tools_from_config(cfg: dict):
     from langchain.agents import load_tools
@@ -26,9 +25,10 @@ def chat(args):
         from termux_agent import sh
         get_voice = lambda: sh('termux-speech-to-text').strip()
         say_voice = lambda text: sh(f'termux-tts-speak "{text}"')
+        if args.vv:
+            bot.set_callback('on_tool_start', lambda tool, argument, **kwargs: say_voice(f'Running {tool["name"]} with argument {argument}'))
         while True:
             say_voice("Listening!")
-            time.sleep(0.5)
             print('You: ', end='')
             msg = get_voice()
             while not msg:
@@ -65,6 +65,15 @@ p.add_argument(
     action='store_true',
     help=(
         "Start the chatbot interface with voice input and output."
+    )
+)
+p.add_argument(
+    '--vv', '--verbose-voice',
+    action='store_true',
+    default=True,
+    help=(
+        "Speak aloud each tool that is run."
+        "Only applies when --voice is set."
     )
 )
 p.add_argument(
@@ -134,7 +143,8 @@ elif args.chat:
     chat(args)
 elif args.both:
     start_new_thread(agent, (args,))
-    time.sleep(1.3)
+    time.sleep(1)
     chat(args)
     shutdown_server(f'http://{args.host}:{args.port}')
-    exit(0)
+    sys.exit(0)
+    exit(0) # porque no los dos?

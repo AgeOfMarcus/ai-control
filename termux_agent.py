@@ -25,7 +25,11 @@ def app_post():
 @app.route('/shutdown')
 def shutdown_server():
     print('Server shutting down...')
-    request.environ.get('werkzeug.server.shutdown')()
+    fn = request.environ.get('werkzeug.server.shutdown')
+    try:
+        fn() # idk if it needs to be called
+    except:
+        pass
 
 def main(host='127.0.0.1', port=8080):
     app.run(host=host, port=port)

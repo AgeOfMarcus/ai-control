@@ -37,9 +37,12 @@ class Chatbot(object):
             'argument': '',
             'result': ''
         }
-        self.agent.callback_manager.on_tool_start = self._on_tool_start
-        self.agent.callback_manager.on_tool_end = self._on_tool_end
+        self.set_callback('on_tool_start', self._on_tool_start)
+        self.set_callback('on_tool_end', self._on_tool_end)
     
+    def set_callback(self, name: str, callback: callable):
+        setattr(self.agent.callback_manager, name, callback)
+
     def _on_tool_start(self, tool: dict, argument: str, **kwargs):
         self.last_tool = {
             'name': tool['name'],
