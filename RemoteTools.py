@@ -16,7 +16,7 @@ class BaseRemoteTool(BaseTool):
         extra = Extra.forbid
 
 class BatteryStatusTool(BaseRemoteTool, BaseTool):
-    name = 'Battery Status'
+    name = 'BatteryStatus'
     description = (
         'Get the current battery status of the device.'
         'Useful for determining if the device is charging or not.'
@@ -28,7 +28,7 @@ class BatteryStatusTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-battery-status')
     
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class BrightnessTool(BaseRemoteTool, BaseTool):
     name = 'Brightness'
@@ -45,7 +45,7 @@ class BrightnessTool(BaseRemoteTool, BaseTool):
         return self._run(level)
 
 class PhotoTool(BaseRemoteTool, BaseTool):
-    name = 'Take Photo'
+    name = 'TakePhoto'
     description = (
         'Take a photo with the device camera.'
         'Useful for taking a photo with the device camera.'
@@ -61,7 +61,7 @@ class PhotoTool(BaseRemoteTool, BaseTool):
         return self._run(camera_id)
 
 class ClipboardGetTool(BaseRemoteTool, BaseTool):
-    name = 'Clipboard Get'
+    name = 'GetClipboard'
     description = (
         'Get the current clipboard contents.'
         'Useful for getting the current clipboard contents.'
@@ -72,10 +72,10 @@ class ClipboardGetTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-clipboard-get')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class ClipboardSetTool(BaseRemoteTool, BaseTool):
-    name = 'Clipboard Set'
+    name = 'SetClipboard'
     description = (
         'Set the current clipboard contents.'
         'Useful for setting the current clipboard contents.'
@@ -100,10 +100,10 @@ class FingerprintTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-fingerprint')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class LocationTool(BaseRemoteTool, BaseTool):
-    name = 'Location'
+    name = 'GetLocation'
     description = (
         'Get the current location of the device.'
         'Useful for getting the current location of the device.'
@@ -114,10 +114,10 @@ class LocationTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-location')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class MediaPlayTool(BaseRemoteTool, BaseTool):
-    name = 'Play Media'
+    name = 'PlayMedia'
     description = (
         'Play a media file.'
         'Useful for playing a media file.'
@@ -131,7 +131,7 @@ class MediaPlayTool(BaseRemoteTool, BaseTool):
         return self._run(path)
 
 class MediaPauseTool(BaseRemoteTool, BaseTool):
-    name = 'Pause Media'
+    name = 'PauseMedia'
     description = (
         'Pause the currently playing media.'
         'Useful for pausing the currently playing media.'
@@ -141,10 +141,10 @@ class MediaPauseTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-media-player pause')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class RecordMicTool(BaseRemoteTool, BaseTool):
-    name = 'Record Microphone'
+    name = 'RecordMicrophone'
     description = (
         'Record audio from the device microphone.'
         'Useful for recording audio from the device microphone.'
@@ -209,7 +209,7 @@ class RemoveNotificationTool(BaseRemoteTool, BaseTool):
         return self._run(id)
 
 class URLOpenerTool(BaseRemoteTool, BaseTool):
-    name = 'Open URL'
+    name = 'OpenURL'
     description = (
         'Open a URL in the default browser.'
         'Useful for opening a URL in the default browser.'
@@ -253,7 +253,7 @@ class SpeakTool(BaseRemoteTool, BaseTool):
         return self._run(text)
 
 class GetVolumeTool(BaseRemoteTool, BaseTool):
-    name = 'Get Volume'
+    name = 'GetVolume'
     description = (
         'Get the current volume.'
         'Useful for getting the current volume.'
@@ -264,10 +264,10 @@ class GetVolumeTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-volume')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class SetVolumeTool(BaseRemoteTool, BaseTool):
-    name = 'Set Volume'
+    name = 'SetVolume'
     description = (
         'Set the current volume.'
         'Useful for setting the current volume.'
@@ -287,7 +287,7 @@ class SetVolumeTool(BaseRemoteTool, BaseTool):
         return self._run(arguments)
 
 class WiFiInfoTool(BaseRemoteTool, BaseTool):
-    name = 'WiFi Info'
+    name = 'WiFiInfo'
     description = (
         'Get information about the WiFi connection.'
         'Useful for getting information about the WiFi connection.'
@@ -299,10 +299,10 @@ class WiFiInfoTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-wifi-connectioninfo')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class WiFiScanTool(BaseRemoteTool, BaseTool):
-    name = 'WiFi Scan'
+    name = 'WiFiScan'
     description = (
         'Scan for WiFi networks.'
         'Useful for scanning for WiFi networks.'
@@ -314,7 +314,7 @@ class WiFiScanTool(BaseRemoteTool, BaseTool):
         return self._send_cmd('termux-wifi-scaninfo')
 
     async def _arun(self, *args):
-        return self._run()
+        return self._run(*args)
 
 class VibratorTool(BaseRemoteTool, BaseTool):
     name = 'Vibrator'
