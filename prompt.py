@@ -22,7 +22,7 @@ Thought: Do I need to use a tool? No
 
 ASSISTANT_SUFFIX = """You are very strict to the tool outputs and will never fake a result.
 You will remember to use tools to accomplish requests rather than explaining how.
-You will always use the PlanTool when given multiple tasks.
+You will always use the PlanTool when given multiple tasks. You will remember to provide a blank action input when using a tool that does not take any arguments.
 Begin!
 Previous conversation history:
 {chat_history}

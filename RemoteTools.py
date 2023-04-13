@@ -108,6 +108,7 @@ class LocationTool(BaseRemoteTool, BaseTool):
         'Get the current location of the device.'
         'Useful for getting the current location of the device.'
         'Does not accept any arguments.'
+        'Returns a dict containing latitude and longitude.'
     )
 
     def _run(self, *args):
