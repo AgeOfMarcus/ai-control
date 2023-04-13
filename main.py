@@ -13,9 +13,11 @@ def chat(args):
         say_voice = lambda text: sh(f'termux-tts-speak "{text}"')
         while True:
             print('You: ', end='')
+            time.sleep(0.5)
             msg = get_voice()
             while not msg:
                 print('... ', end='')
+                time.sleep(0.5)
                 msg = get_voice()
             print(msg)
 
