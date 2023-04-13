@@ -132,3 +132,4 @@ elif args.both:
     start_new_thread(agent, (args,))
     time.sleep(1.3)
     chat(args)
+    exit(0)
