@@ -2,5 +2,6 @@
     "tools": {
         "langchain": ["requests_all"],
         "openai": []
-    }
+    },
+    "model_name": "gpt-4"
 }

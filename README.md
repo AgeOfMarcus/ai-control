@@ -52,15 +52,7 @@ The assistant is now able to effectively execute multiple actions in a row. It d
 
 ## OpenAI Plugins
 
-Langchain built their own plugin loader, but I found it didn't work how I wanted it to, so I built on top of that. You can see my work in `PluginLoader.py`. Plugins will be loaded by URL, from the list defined in your config which I will go over.
-
-# `config.json`
-
-This file is where you can define additional tools you want your Assistant to have. In the `langchain` section, include [tools built-in to langchain](https://python.langchain.com/en/latest/modules/agents/tools.html). If any of those tools require an API key, set it in your `.env` file. 
-
-In the `openai` section, include any URLs of OpenAI Plugins you'd like to load (e.g., `https://www.klarna.com/.well-known/ai-plugin.json`). **This feature is highly experimental!** Also, this requires you include the `requests_all` tool in the `langchain` section of your `config.json`. 
-
-You can use mutliple configuration files, if you want. You can specify which to load with the `--config <filename>` argument.
+Langchain built their own plugin loader, but I found it didn't work how I wanted it to, so I built on top of that. You can see my work in `PluginLoader.py`. Plugins will be loaded by URL, from the list defined in your config which I will go over in the **setup/installation** section.
 
 # Future ideas
 
@@ -79,6 +71,17 @@ Make a copy of `.env.example` named `.env` and set the following keys:
     * Otherwise, it's just `http://` + your phone's IP address + `:8080` for the port
 
 For the agent device, make sure you have the Termux-API app installed along with the interface. To install the interface, run `pkg install termux-*` from within a termux session. **Be sure to enable all permissions you want to use for Termux-API - for Android 13+ you might need to [allow restricted settings](https://support.google.com/android/answer/12623953?hl=en).**
+
+## `config.json`
+
+This is the default configuration file which is loaded when starting `--chat` mode. You can specify which to load with the `--config <filename>` argument. It should contain the following keys:
+
+* `tools` - this is where you can define additional tools you want your Assistant to have. It should contain another dict with the following keys:
+    * `langchain` - a **list** of [tools included with langchain](https://python.langchain.com/en/latest/modules/agents/tools.html). If any of those tools require an API key, set it in your `.env` file. 
+    * `openai` - a list of URLs which should link to an OpenAI Plugin ([example](https://www.klarna.com/.well-known/ai-plugin.json)). **This feature is highly experimental!** Also, this requires you include the `requests_all` tool in the `langchain` section.
+* `model_name` - here you can change the name of the LLM used by the chatbot. By default, for best results, `gpt-4` is selected. You can change it to `gpt-3.5-turbo` however it is not recommended. 
+    * Please note, the `PluginLoader` tool used for loading OpenAI Plugins uses `gpt-4` and cannot be changed.
+    * Also, `PlanTool` in `UtilTools` uses `text-davinci-003`.
 
 # usage
 

@@ -6,9 +6,9 @@ def get_tools_from_config(cfg: dict):
     from langchain.agents import load_tools
     from PluginLoader import PluginLoader # PluginLoader.py
     tools = []
-    for url in cfg['tools']['openai']:
+    for url in cfg['openai']:
         tools.append(PluginLoader(url).get_tool())
-    if (l_tools := cfg['tools']['langchain']):
+    if (l_tools := cfg['langchain']):
         tools += load_tools(l_tools)
     return tools
 
@@ -19,7 +19,8 @@ def chat(args):
     os.environ['TERMUX_AGENT_URL'] = f'http://{args.host}:{args.port}'
     from chatbot import Chatbot
     config = json.load(open(args.config, 'r'))
-    tools = get_tools_from_config(config)
+    os.environ['OPENAI_MODEL_NAME'] = config['model_name']
+    tools = get_tools_from_config(config['tools'])
     bot = Chatbot(verbose=args.verbose, tools=tools)
     if args.voice:
         from termux_agent import sh
