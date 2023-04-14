@@ -3,9 +3,9 @@ Using GPT-4 to remotely execute code on my smartphone is a smart idea, surely. S
 
 ### What's new?
 
-The assistant is now able to effectively execute multiple actions in a row. It does this by calling another LLM, which comes up with a plan. It also has access to a bunch more Termux API tools.
+The assistant is now able to effectively execute **multiple actions** in a row. It does this by calling another LLM, which comes up with a plan. It also has access to a bunch more Termux API tools. **Voice chat** is now a mode, thanks to Termux Speech to Text, which uses your phone's engine. The Assistant can now **load OpenAI Plugins** to use.
 
-#### Just added: voice chat mode & OpenAI Plugin Loader!
+### Just added: partial **gpt-3.5-turbo** support!
 
 ## [Video Demo (*YouTube*)](https://www.youtube.com/watch?v=nWdNP0BInNo)
 
