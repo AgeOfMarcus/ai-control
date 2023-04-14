@@ -343,7 +343,7 @@ class SearchContactsTool(BaseRemoteTool, BaseTool):
     def _run(self, search: str):
         res = self._send_cmd('termux-contact-list')
         contacts = json.loads(res['output'])
-        matches = [c for c in contacts if search in c['name']]
+        matches = [c for c in contacts if search.lower() in c['name'].lower()]
         return matches
     async def _arun(self, *args):
         return self._run(*args)
@@ -374,7 +374,7 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
     description = (
         "Sends an SMS message."
         "Useful for sending an SMS message."
-        "Accepts a single argument, a dictionary in JSON format containing the keys 'number' (a string representing the phone number to send the message to - seperated by commas for multiple numbers - use the ListContactsTool to find numbers by name), and 'message' (a string representing the message to send)."
+        "Accepts a single argument, a dictionary in JSON format containing the keys 'number' (a string representing the phone number to send the message to without spaces or symbols barring country code - seperated by commas for multiple numbers - use the SearchContactsTool to find numbers by name), and 'message' (a string representing the message to send)."
         "Does not return any response."
     )
 
@@ -383,7 +383,8 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
             args = json.loads(arguments)
         except json.JSONDecoderError:
             return {'error': 'Invalid JSON'}
-        return self._send_cmd(f'termux-sms-send -n "{args["number"]}" "{args["message"]}"')
+        numbers = args['number'].replace("-",'').replace(' ','').replace('(','').replace(")","")
+        return self._send_cmd(f'termux-sms-send -n "{numbers}" "{args["message"]}"')
 
     async def _arun(self, arguments):
         return self._run(arguments)

@@ -27,7 +27,7 @@ def chat(args):
         get_voice = lambda: sh('termux-speech-to-text').strip()
         say_voice = lambda text: sh(f'termux-tts-speak "{text}"')
         if args.vv:
-            bot.set_callback('on_tool_start', lambda tool, argument, **kwargs: say_voice(f'Running {tool["name"]} with argument {argument}'))
+            bot.set_callback('on_tool_start', (lambda tool, argument, **kwargs: say_voice(f'Running {tool["name"]}') if not tool['name'] in ['PlanTool'] else None))
         while True:
             say_voice("Listening!")
             print('You: ', end='')
