@@ -173,7 +173,7 @@ class NotificationTool(BaseRemoteTool, BaseTool):
     def _run(self, arguments):
         try:
             notif = json.loads(arguments)
-        except json.JSONDecoderError:
+        except json.JSONDecodeError:
             return {'error': 'Invalid JSON'}
         return self._send_cmd(f'termux-notification -t {notif["title"]} -c {notif.get("message", notif["title"])}')
 
@@ -278,7 +278,7 @@ class SetVolumeTool(BaseRemoteTool, BaseTool):
     def _run(self, arguments):
         try:
             args = json.loads(arguments)
-        except json.JSONDecoderError:
+        except json.JSONDecodeError:
             return {'error': 'Invalid JSON'}
         if not args['volume_type'] in ('music', 'alarm', 'notification', 'ring'):
             return 'Error: type must be "music", "alarm", "notification", or "ring"'
@@ -360,7 +360,7 @@ class ListSMSTool(BaseRemoteTool, BaseTool):
     def _run(self, arguments):
         try:
             args = json.loads(arguments)
-        except json.JSONDecoderError:
+        except json.JSONDecodeError:
             return {'error': 'Invalid JSON'}
         if not args['box'] in ('inbox', 'sent', 'draft', 'outbox', 'failed', 'queued', 'all'):
             return 'Error: box must be "inbox", "sent", "draft", "outbox", "failed", "queued", or "all"'
@@ -381,7 +381,7 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
     def _run(self, arguments):
         try:
             args = json.loads(arguments)
-        except json.JSONDecoderError:
+        except json.JSONDecodeError:
             return {'error': 'Invalid JSON'}
         numbers = args['number'].replace("-",'').replace(' ','').replace('(','').replace(")","")
         return self._send_cmd(f'termux-sms-send -n "{numbers}" "{args["message"]}"')
@@ -445,7 +445,7 @@ class ReadSensorTool(BaseRemoteTool, BaseTool):
     def _run(self, arguments):
         try:
             args = json.loads(arguments)
-        except json.JSONDecoderError:
+        except json.JSONDecodeError:
             return {'error': 'Invalid JSON'}
         return self._send_cmd(f'termux-sensor -s {args["sensor"]} -n {args["limit"]}')
     
