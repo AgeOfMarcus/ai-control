@@ -171,10 +171,13 @@ class NotificationTool(BaseRemoteTool, BaseTool):
     )
 
     def _run(self, arguments):
-        try:
-            notif = json.loads(arguments)
-        except json.JSONDecodeError:
-            return {'error': 'Invalid JSON'}
+        if type(arguments) == dict:
+            notif = arguments
+        else:
+            try:
+                notif = json.loads(arguments)
+            except json.JSONDecodeError:
+                return {'error': 'Invalid JSON'}
         return self._send_cmd(f'termux-notification -t {notif["title"]} -c {notif.get("message", notif["title"])}')
 
     async def _arun(self, arguments):
@@ -276,10 +279,13 @@ class SetVolumeTool(BaseRemoteTool, BaseTool):
     )
 
     def _run(self, arguments):
-        try:
-            args = json.loads(arguments)
-        except json.JSONDecodeError:
-            return {'error': 'Invalid JSON'}
+        if type(arguments) == dict:
+            args = arguments
+        else:
+            try:
+                args = json.loads(arguments)
+            except json.JSONDecodeError:
+                return {'error': 'Invalid JSON'}
         if not args['volume_type'] in ('music', 'alarm', 'notification', 'ring'):
             return 'Error: type must be "music", "alarm", "notification", or "ring"'
         return self._send_cmd(f'termux-volume {args["volume_type"]} {args["value"]}')
@@ -358,10 +364,13 @@ class ListSMSTool(BaseRemoteTool, BaseTool):
     )
 
     def _run(self, arguments):
-        try:
-            args = json.loads(arguments)
-        except json.JSONDecodeError:
-            return {'error': 'Invalid JSON'}
+        if type(arguments) == dict:
+            args = arguments
+        else:
+            try:
+                args = json.loads(arguments)
+            except json.JSONDecodeError:
+                return {'error': 'Invalid JSON'}
         if not args['box'] in ('inbox', 'sent', 'draft', 'outbox', 'failed', 'queued', 'all'):
             return 'Error: box must be "inbox", "sent", "draft", "outbox", "failed", "queued", or "all"'
         return self._send_cmd(f'termux-sms-list -t {args["box"]} -l {args["limit"]}')
@@ -379,10 +388,13 @@ class SendSMSTool(BaseRemoteTool, BaseTool):
     )
 
     def _run(self, arguments):
-        try:
-            args = json.loads(arguments)
-        except json.JSONDecodeError:
-            return {'error': 'Invalid JSON'}
+        if type(arguments) == dict:
+            args = arguments
+        else:
+            try:
+                args = json.loads(arguments)
+            except json.JSONDecodeError:
+                return {'error': 'Invalid JSON'}
         numbers = args['number'].replace("-",'').replace(' ','').replace('(','').replace(")","")
         return self._send_cmd(f'termux-sms-send -n "{numbers}" "{args["message"]}"')
 
@@ -443,10 +455,13 @@ class ReadSensorTool(BaseRemoteTool, BaseTool):
     )
 
     def _run(self, arguments):
-        try:
-            args = json.loads(arguments)
-        except json.JSONDecodeError:
-            return {'error': 'Invalid JSON'}
+        if type(arguments) == dict:
+            args = arguments
+        else:
+            try:
+                args = json.loads(arguments)
+            except json.JSONDecodeError:
+                return {'error': 'Invalid JSON'}
         return self._send_cmd(f'termux-sensor -s {args["sensor"]} -n {args["limit"]}')
     
     async def _arun(self, arguments):
